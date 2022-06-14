@@ -12,7 +12,7 @@ class guide(models.Model):
     guide_name= models.CharField(max_length=200)
     experience= models.IntegerField()
     type= models.CharField(max_length=100)
-    contact_no= models.IntegerField()
+    contact_no= models.CharField(max_length=200)
     no_of_routes= models.IntegerField()
     review= models.CharField(max_length=500)
 
