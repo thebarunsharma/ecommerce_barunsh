@@ -7,8 +7,8 @@ class package(models.Model):
     price= models.FloatField()
     type= models.CharField(max_length=100)
 
-class user(models.Model):
-    user_id= models.IntegerField()
+class customer(models.Model):
+    customer_id= models.IntegerField()
     fullname= models.CharField(max_length=200)
     address= models.CharField(max_length=200)
     phone= models.CharField(max_length=200)
@@ -35,7 +35,7 @@ class booking(models.Model):
     booking_id= models.IntegerField()
     destination= models.CharField(max_length=200)
     ticket_type= models.CharField(max_length=200)
-    user= models.ForeignKey(user, on_delete=models.CASCADE)
+    customer= models.ForeignKey(customer, on_delete=models.CASCADE, null=True)
     guide= models.ForeignKey(guide, on_delete=models.CASCADE)
     package= models.ForeignKey(package, on_delete=models.CASCADE)
 
