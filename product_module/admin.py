@@ -28,9 +28,9 @@ class customerAdmin(admin.ModelAdmin):
 admin.site.register(customer, customerAdmin)
 
 class agencyAdmin(admin.ModelAdmin):
-    list_display= ["agency_id", "agency_name", "location", "package",]
-    search_fields= ["agency_id", "agency_name", "location", "package",]
-    list_filter= ["agency_id", "agency_name", "location", "package",]
+    list_display= ["agency_id", "agency_name", "location", "package_id",]
+    search_fields= ["agency_id", "agency_name", "location", "package_id",]
+    list_filter= ["agency_id", "agency_name", "location", "package_id",]
     class Meta:
         model= agency
 admin.site.register(agency, agencyAdmin)
