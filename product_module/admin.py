@@ -24,3 +24,6 @@ class BrandAdmin(admin.ModelAdmin):
 class Meta:
     model = Brand
 admin.site.register(Brand, BrandAdmin)
+
+from .models import CartItem
+admin.site.register(CartItem)
