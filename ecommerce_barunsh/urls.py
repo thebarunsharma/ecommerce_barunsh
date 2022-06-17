@@ -15,11 +15,8 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from .views import search, cart, removecart
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('product_module.urls')),
-    path('cart/', cart),
-    path('cart/remove/<int:id>', removecart),
 ]
