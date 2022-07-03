@@ -1,6 +1,10 @@
 from django.urls import path
-from .views import index,about
+from .views import index,about,destination,blog,singleblog
 urlpatterns = [
     path('', index),
-    path('about', about),
+    path('index.html', index),
+    path('about.html', about),
+    path('travel_destination.html', destination),
+    path('blog.html',blog),
+    path('single-blog.html',singleblog)
 ]
