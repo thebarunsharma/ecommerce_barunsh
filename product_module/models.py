@@ -7,12 +7,19 @@ class package(models.Model):
     price= models.FloatField()
     type= models.CharField(max_length=100)
 
+class customer(models.Model):
+    customer_id= models.IntegerField()
+    fullname= models.CharField(max_length=200)
+    address= models.CharField(max_length=200)
+    phone= models.CharField(max_length=200)
+    email= models.CharField(max_length=300)
+
 class guide(models.Model):
     guide_id= models.IntegerField()
     guide_name= models.CharField(max_length=200)
     experience= models.IntegerField()
     type= models.CharField(max_length=100)
-    contact_no= models.IntegerField()
+    contact_no= models.CharField(max_length=200)
     no_of_routes= models.IntegerField()
     review= models.CharField(max_length=500)
 
@@ -28,7 +35,7 @@ class booking(models.Model):
     booking_id= models.IntegerField()
     destination= models.CharField(max_length=200)
     ticket_type= models.CharField(max_length=200)
-    #user= models.ForeignKey()
+    customer= models.ForeignKey(customer, on_delete=models.CASCADE, null=True)
     guide= models.ForeignKey(guide, on_delete=models.CASCADE)
     package= models.ForeignKey(package, on_delete=models.CASCADE)
 
