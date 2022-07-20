@@ -1,9 +1,8 @@
-from django.db.models import Q
-from .models import Product, Brand, Category, CartItem
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from datetime import datetime
-
+from django.db.models import Q
+from .models import Product, Brand, Category, CartItem
 
 def index(request):
     if request.method == "GET":
@@ -17,8 +16,8 @@ def index(request):
             products = Product.objects.filter(filter_query)
         else:
             products = Product.objects.all()
-        categories = Category.objects.all()
-        brands = Brand.objects.all()
+            categories = Category.objects.all()
+            brands = Brand.objects.all()
         context = {
             'products': products,
             'categories': categories,
@@ -28,11 +27,11 @@ def index(request):
         return render(request, 'index.html', context)
     elif request.method == "POST":
         q = request.POST.get("query")
-        if "-" in q:
-            price_values = q.split("-")
-            filter_query = Q(price__gte=price_values[0]) & Q(price__lte=price_values[1])
-        else:
-            filter_query = Q(name__icontains=q) | Q(price__icontains=q) | Q(brand__name__icontains=q)
+    if "-" in q:
+        price_values = q.split("-")
+        filter_query = Q(price__gte=price_values[0]) & Q(price__lte=price_values[1])
+    else:
+        filter_query = Q(name__icontains=q) | Q(price__icontains=q) |Q(brand__name__icontains=q)
         products = Product.objects.filter(filter_query)
         categories = Category.objects.all()
         brands = Brand.objects.all()
@@ -41,9 +40,9 @@ def index(request):
             'categories': categories,
             'brands': brands,
             'search_query': q,
-            }
+        }
         return render(request, 'index.html', context)
-    
+        
 @login_required(login_url="/admin/login")
 def cart(request):
     # get request data
@@ -53,7 +52,7 @@ def cart(request):
         # retrieve product data
         product = Product.objects.get(id=product_id)
         try:
-        # get cart item and increase quantity
+            # get cart item and increase quantity
             cart_item = CartItem.objects.get(user=request.user,product=product)
             cart_item.quantity += int(quantity)
             cart_item.entered_on = datetime.now()
@@ -64,28 +63,32 @@ def cart(request):
                 product=product,
                 quantity=int(quantity),
                 entered_on = datetime.now(),
-    )
- # save to database
-        cart_item.save()
- # retrieve the cart items for the user from db
+            )
+            # save to database
+            cart_item.save()
     cart_items = CartItem.objects.filter(user=request.user)
- # calculate total
     total = 0
     for item in cart_items:
         total += item.product.price * item.quantity
- # return view
+    # return view
     context = {
         'cart_items': cart_items,
         'total': total,
- }
+    }
     return render(request, "cart.html", context)
 def removecart(request, id):
     try:
- # get cart item and remove it
+        # get cart item and increase quantity
         product = Product.objects.get(id=id)
         cart_item = CartItem.objects.get(user=request.user, product=product)
-        cart_item.delete()
+        cart_item.delete() 
     except CartItem.DoesNotExist:
         pass
- # redirect to cart
+    # redirect to cart
     return redirect(cart)
+def success_page(request):
+    message = request.session["message"]
+    return render(request, "success.html", {"message": message})
+def error_page(request):
+    message = request.session["message"]
+    return render(request, "error.html", {"message": message})
